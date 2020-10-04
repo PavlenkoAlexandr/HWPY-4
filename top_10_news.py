@@ -1,8 +1,8 @@
 import json
 import xml.etree.ElementTree as ET
 
-def top_10_words(lst):
-    words_list = lst.split()
+def top_10_words(str_):
+    words_list = str_.split()
     words_dict = dict()
     for word in words_list:
         if len(word) > 6:
