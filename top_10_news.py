@@ -6,12 +6,7 @@ def top_words(string, words_len, top):
   string_dict = dict()
   for word in set(string_list):
     if len(word) > words_len:
-      for item in string_list:
-        if word == item:
-          if word in string_dict:
-            string_dict[word] += 1
-          else:
-            string_dict[word] = 1
+      string_dict[word] = string_list.count(word)
   sorted_dict = sorted(string_dict.items(), key=lambda x: x[1], reverse=True)
   return sorted_dict[:top]
 
