@@ -1,14 +1,19 @@
 import json
 import xml.etree.ElementTree as ET
 
-def top_10_words(str_):
-    words_list = str_.split()
-    words_dict = dict()
-    for word in words_list:
-        if len(word) > 6:
-            words_dict[word] = words_list.count(word)
-    descriptions_sorted = sorted(words_dict.items(), key=lambda x: x[1], reverse=True)
-    return descriptions_sorted[:10]
+def top_words(string, words_len, top):
+  string_list = string.lower().split()
+  string_dict = dict()
+  for word in set(string_list):
+    if len(word) > words_len:
+      for item in string_list:
+        if word == item:
+          if word in string_dict:
+            string_dict[word] += 1
+          else:
+            string_dict[word] = 1
+  sorted_dict = sorted(string_dict.items(), key=lambda x: x[1], reverse=True)
+  return sorted_dict[:top]
 
 with open('newsafr.json', encoding='utf-8') as f:
     json_data = json.load(f)
@@ -21,7 +26,7 @@ for description in descriptions:
     json_descriptions.replace('[', '')
     json_descriptions.replace(']', '')
 
-print(top_10_words(json_descriptions))
+print(top_words(json_descriptions, 6, 10))
 
 
 parser = ET.XMLParser(encoding='utf-8')
@@ -33,4 +38,4 @@ xml_descriptions = str()
 for item in items:
     xml_descriptions += item.find('description').text.lower()
 
-print(top_10_words(xml_descriptions))
+print(top_words(xml_descriptions, 6, 10))
